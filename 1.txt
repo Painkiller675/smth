@@ -1,0 +1,47 @@
+
+замыкание. Передай сервис в функцию которая будем возвращать функцию, которая будет выполняться при обработке звонка и сервис будет в её области видимости
+func JWTMW(authorizationService service.AuthorizationService) func(h http.Handler) http.Handler {
+
+	return func(next http.Handler) http.Handler {
+		fn := func(w http.ResponseWriter, r *http.Request) {
+			// ТУТ ПОШЁЛ КОД JWT middleware
+			пример обращения к сервису
+			err := authorizationService.Register(r.Context(), service.RegisterRequest{})
+			и так далее ..
+			Но тут опять все структуры лежат в сервисе, брать прям вот так оттуда?
+			if len(allowedMethods) == 0 {
+				next.ServeHTTP(w, r)
+				return
+			}
+
+			if _, ok := allowedMethods[r.Method]; ok {
+				next.ServeHTTP(w, r)
+				return
+			}
+
+			w.WriteHeader(http.StatusMethodNotAllowed)
+		}
+		return http.HandlerFunc(fn)
+	}
+}
+
+С CalculationService должен работать контроллер системы расчёта, а не системы лояльности
+
+
+Генерация моков
+https://github.com/vilasle/gophermart/blob/accrual/update_mocks.sh
+
+Тесты с ними
+https://github.com/vilasle/gophermart/blob/accrual/internal/service/calculation/rules_test.go
+
+
+log := logger.With("requestId", requestId)
+log.Info(msg)
+
+В slog у тебя первый параметр это сообщение,  а остальные дробятся по 2 на ключ и значение
+
+log.Info(msg, "requestId", requestId)
+
+В логе будет
+
+"Some messages" "requestId":requestIdValue

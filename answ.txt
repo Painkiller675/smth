@@ -1,0 +1,34 @@
+
+сделай просто http сервер и передай туда куки с полем Expires и неведомая хрень перестанет быть такой
+
+func main() {
+ http.HandleFunc("/set", setCookies)
+ http.HandleFunc("/get", getCookies)
+ http.ListenAndServe(":8080", nil)
+}
+
+func setCookies(w http.ResponseWriter, r *http.Request) {
+ cookie := &http.Cookie{
+  Name:  "session",
+  Value: "1234567890",
+  MaxAge: 120,
+  Expires: time.Now().Add(120 * time.Second),
+ }
+ http.SetCookie(w, cookie)
+ w.WriteHeader(http.StatusOK)
+ w.Write([]byte("Cookie set"))
+}
+
+func getCookies(w http.ResponseWriter, r *http.Request) {
+ cookie, err := r.Cookie("session")
+ if err != nil {
+  http.Error(w, err.Error(), http.StatusInternalServerError)
+  return
+ }
+}
+
+
+
+	intErr := {"error": "server internal error"}
+	if err != nil { // TODO: ЕСЛИ ТУТ ОШИБКА, то как обработать и уйти на отдачу только ошибки без маршала?
+		http.Error(w, intErr, intErr)

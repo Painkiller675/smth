@@ -1,0 +1,20 @@
+для localhost можно запустить через     
+
+http.ListenAndServeTLS(
+                Config.ServerAddr,
+                Config.TLSCertPath,
+                Config.TLSKeyPath,
+                routes)
+
+TLSCertPath и TLSKeyPath - это пути до файлов сертификата и ключа. Файлы сгенерить можно так 
+
+mkcert -install  
+mkcert localhost
+
+Если полученные файлы положить в папку certs в корне проекта, то будет примерно так
+http.ListenAndServeTLS(Config.ServerAddr,"certs/localhost.pem","cert/localhost-key.pem", routes)
+
+дальше в "обычных" curl поменять с http://localhost:<port>/ на https://localhost:<port>/
+
+mkcert устанавливал по инструкции:
+https://itelmenko.ru/devops/mkcert-https-for-local-site/

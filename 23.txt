@@ -1,0 +1,20 @@
+httpServer := &http.Server{
+        ReadTimeout: 5 * time.Second,
+        Addr:        ":" + ms.conf.Metrics.Port,
+        Handler:     mux,
+    }
+
+err := httpServer.ListenAndServe(); err != nil
+
+
+
+
+if envHTTPSEn, ok := os.LookupEnv('ENABLE_HTTPS'), !ok {
+    читаем из аргумента строки
+} else {
+    парсим и пишем в конфиг
+}flags
+ Если в джсоне стоит true, а в env стоит false, то в итоге выставиться должен false.
+
+Решений, несколько.
+Например, в структуре конфига можно определить поле как ссылка на bool. Потом на конфиг накидывать JSON, сверху флаг (если определен), потом env, если определен. И если в итоге поле осталось в nil, то накидывать умолчание. Проверку заполненности env можно делать через os.Lookup, проверку факта заполнения аргумента тоже можно как-то

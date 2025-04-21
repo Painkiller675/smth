@@ -1,0 +1,13 @@
+
+https://stackoverflow.com/questions/35809252/check-if-flag-was-provided-in-go
+пример, как проверить, был ли вообще указан аргумент командной строки.
+
+var servername = flag.String("server", "localhost:8129", "server:port")
+
+flag.Parse()
+
+if f := flag.CommandLine.LookupActual("server"); f != nil {
+    fmt.Printf("server set to %#v\n", f)
+} else {
+    fmt.Printf("server not set\n")
+}
